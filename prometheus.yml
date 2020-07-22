@@ -1,0 +1,30 @@
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+scrape_configs:
+  - job_name: 'wiremock'
+    static_configs:
+    - targets:
+      - 'wiremock:8080'
+      labels:
+        __test_target_label: /prefix/an_app
+    relabel_configs:
+    - source_labels: [__test_target_label]
+      target_label: app_name
+      action: replace
+    metric_relabel_configs:
+    # Add a `service` label to metrics with matching prefix
+    - source_labels: [app_name]
+      regex: '/prefix/(.+)'
+      target_label: service
+      replacement: '${1}'
+      action: replace
+    # Add a `pod` label to metrics with matching prefix
+    - source_labels: [app_name, instance]
+      separator: ';'
+      target_label: pod
+      regex: '/prefix/(.+);(.+)'
+      replacement: '${2}'
+      action: replace

@@ -1,0 +1,16 @@
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - $PWD/prometheus.yml:/etc/prometheus/prometheus.yml
+  wiremock:
+    image: rodolpheche/wiremock:latest
+    # ports:
+    #   - 9091:8080
+    volumes:
+      - $PWD/wiremock:/home/wiremock
+    command:
+      - --global-response-templating

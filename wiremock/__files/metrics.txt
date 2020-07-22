@@ -1,0 +1,3 @@
+# HELP a_metric Help text for metric.
+# TYPE a_metric counter
+a_metric 12345 {{now format='epoch'}}

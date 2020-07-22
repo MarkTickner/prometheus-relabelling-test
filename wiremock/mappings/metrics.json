@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/metrics"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "metrics.txt"
+  }
+}
